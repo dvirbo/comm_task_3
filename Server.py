@@ -14,15 +14,12 @@ serverPort = 6789
 serverSocket.bind(('0.0.0.0', serverPort))
 # Server only handles one connection at a given time. ‘1’ is a number of incoming connections are waiting in the queue.
 serverSocket.listen(1)
-print ('server is up on port:', serverPort)
-'''
- my IP: 192.168.153.1
- http://192.168.153.1:6789/HelloWorld.html
-'''
+print('server is up on port:', serverPort)
+
 while True:
     # Establish the connection
     print('Ready to serve...')
-    connectionSocket, addr = serverSocket.accept() # Wait for client connection
+    connectionSocket, addr = serverSocket.accept()  # Wait for client connection
     try:
         message = connectionSocket.recv(1024)  # read bytes from the Socket
         filename = message.split()[1]
@@ -41,7 +38,8 @@ while True:
         # Send response message for file not found
         connectionSocket.send("\nHTTP/1.1 404 Not Found\n\n".encode())
 
-        connectionSocket.close()   # Close client socket
+        connectionSocket.close()  # Close client socket
 
-        serverSocket.close()   # # Close main socket
+        serverSocket.close()  # # Close main socket
+    finally:
         sys.exit()  # Terminate the program after sending the corresponding data
